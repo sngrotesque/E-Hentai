@@ -15,7 +15,7 @@ RED  = "\x1b[91m"
 RSET = "\x1b[0m"
 YOLW = "\x1b[93m"
 
-def get(url, total, R18G :bool = None):
+def get(url, total, R18G :bool = False):
     if R18G:
         global HEADERS
         HEADERS['Cookie'] = 'nw=1'
@@ -50,7 +50,7 @@ def get(url, total, R18G :bool = None):
     return "Done."
 
 def main():
-    url = "https://e-hentai.org/g/2182217/c8c5a5acb7/"
+    url = "https://e-hentai.org/g/00000000/0000000/"
     get(url, 4, True)
 
 if __name__ == "__main__":
