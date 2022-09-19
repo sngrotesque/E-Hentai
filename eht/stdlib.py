@@ -39,12 +39,13 @@ class ehentai:
         checkDirectory(self.DEFINED_directoryName)
         serialNumber = 1
         for artworkUrl in self.RESULTS_artworkList:
+            saveFilePath = f'{self.DEFINED_directoryName}/{serialNumber:0>8}.jpg'
+            if exists(saveFilePath):
+                print(f'\r>>>> {serialNumber:>8}已存在，跳过...', end='')
             HtmlData = rget(artworkUrl, headers = self.DEFINED_Headers, proxies = self.DEFINED_Proxy).text
             PictureLink = xpath(HtmlData, match_xpath_picture)[0]
-            suffixName = re.findall(match_re_suffixName, PictureLink, re.S | re.I)[0]
             PictureData = rget(PictureLink, headers = self.DEFINED_Headers, proxies = self.DEFINED_Proxy).content
             print(f'\r>>>> 已下载第{serialNumber:>8}张图片.', end='')
-            saveFilePath = f'{self.DEFINED_directoryName}/{serialNumber:0>8}{suffixName}'
             fwrite(saveFilePath, PictureData)
             serialNumber += 1
         print('\n', end='')
