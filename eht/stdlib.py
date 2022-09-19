@@ -1,13 +1,13 @@
 from .utils import *
 
 class ehentai:
-    def __init__(self, url :str, r18g :bool = False, proxyinfo :dict = None):
-        self.DEFINED_URL     = url
-        self.DEFINED_Proxy   = proxyinfo
-        self.DEFINED_Headers = {'User-Agent': UserAgent}
+    def __init__(self, url :str, directoryName :str, r18g :bool = False, proxyinfo :dict = None):
+        self.DEFINED_URL           = url
+        self.DEFINED_directoryName = directoryName
+        self.DEFINED_Proxy         = proxyinfo
+        self.DEFINED_Headers       = {'User-Agent': UserAgent}
         if r18g: self.DEFINED_Headers['Cookie'] = 'nw=1'
         
-        self.RESULTS_Title       = 0
         self.RESULTS_PageCount   = 0
         self.RESULTS_artworkList = []
 
@@ -16,7 +16,6 @@ class ehentai:
         HtmlData = rget(self.DEFINED_URL,
         headers = self.DEFINED_Headers, proxies = self.DEFINED_Proxy).text
         PageNumber = set(xpath(HtmlData, match_xpath_page))
-        self.RESULTS_Title     = xpath(HtmlData, match_xpath_title)[0]
         self.RESULTS_PageCount = len(PageNumber)
         print(f'>>>> 总页数: {self.RESULTS_PageCount}')
 
@@ -37,8 +36,7 @@ class ehentai:
     @property
     def download(self):
         self.getTotalArtworkList
-        directoryName = self.RESULTS_Title
-        checkDirectory(directoryName)
+        checkDirectory(self.DEFINED_directoryName)
         serialNumber = 1
         for artworkUrl in self.RESULTS_artworkList:
             HtmlData = rget(artworkUrl, headers = self.DEFINED_Headers, proxies = self.DEFINED_Proxy).text
@@ -46,7 +44,7 @@ class ehentai:
             suffixName = re.findall(match_re_suffixName, PictureLink, re.S | re.I)[0]
             PictureData = rget(PictureLink, headers = self.DEFINED_Headers, proxies = self.DEFINED_Proxy).content
             print(f'\r>>>> 已下载第{serialNumber:>8}张图片.', end='')
-            saveFilePath = f'{directoryName}/{serialNumber:0>8}{suffixName}'
+            saveFilePath = f'{self.DEFINED_directoryName}/{serialNumber:0>8}{suffixName}'
             fwrite(saveFilePath, PictureData)
             serialNumber += 1
         print('\n', end='')
