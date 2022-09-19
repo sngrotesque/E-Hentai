@@ -1,1 +1,1 @@
-from .ehentai import ehentai
+from .stdlib import ehentai

@@ -1,4 +1,4 @@
-from eht.utils import *
+from eht.utils import ProxyInfo
 import eht
 
 url = 'https://e-hentai.org/g/123456abc/123456abc/'
