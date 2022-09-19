@@ -25,7 +25,3 @@ def fwrite(fn :str, fd :bytes):
 def checkDirectory(DirectoryName :str):
     if not exists(DirectoryName):
         mkdir(DirectoryName)
-
-
-
-
